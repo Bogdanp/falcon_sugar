@@ -12,7 +12,7 @@ matrix:
     - python: "3.7-dev"
     - python: "nightly"
 install:
-  - pip install pipenv codeclimate-test-reporter
+  - pip install pipenv codeclimate-test-reporter "coverage>=4.0,<4.4"
   - pipenv install --dev
 script:
   - py.test
