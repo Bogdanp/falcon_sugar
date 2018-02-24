@@ -1,4 +1,4 @@
-# falcon_sugar
+# falcon_sugar [![Build Status](https://travis-ci.org/Bogdanp/falcon_sugar.svg?branch=master)](https://travis-ci.org/Bogdanp/falcon_sugar)
 
 A little bit of sugar for [Falcon] apps.
 
