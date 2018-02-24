@@ -16,3 +16,5 @@ install:
   - pipenv install --dev
 script:
   - py.test
+after_success:
+  - CODECLIMATE_REPO_TOKEN=3ea9b727de145072e405a8a25ff93a375a135f7bcef34ad47520f4847eeca2c2 codeclimate-test-reporter
