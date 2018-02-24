@@ -1,4 +1,8 @@
-# falcon_sugar [![Build Status](https://travis-ci.org/Bogdanp/falcon_sugar.svg?branch=master)](https://travis-ci.org/Bogdanp/falcon_sugar)
+# falcon_sugar
+
+[![Build Status](https://travis-ci.org/Bogdanp/falcon_sugar.svg?branch=master)](https://travis-ci.org/Bogdanp/falcon_sugar)
+[![Maintainability](https://api.codeclimate.com/v1/badges/9ab06cb5a4ee924e0be4/maintainability)](https://codeclimate.com/github/Bogdanp/falcon_sugar/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/9ab06cb5a4ee924e0be4/test_coverage)](https://codeclimate.com/github/Bogdanp/falcon_sugar/test_coverage)
 
 A little bit of sugar for [Falcon] apps.
 
