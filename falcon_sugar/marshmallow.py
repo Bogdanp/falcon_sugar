@@ -9,12 +9,26 @@ except ImportError:  # pragma: no cover
     HAS_MARSHMALLOW = False
 
 
+def dump(schema, **options):
+    """Decorator for dumping response values using Marshmallow.
+
+    Parameters:
+      schema(marshmallow.Schema)
+    """
+    def decorator(method):
+        @functools.wraps(method)
+        def wrapper(self, req, resp, *args, **kwargs):
+            response = method(self, req, resp, *args, **kwargs)
+            if isinstance(response, tuple):
+                status, response = response
+                return status, schema.dump(response, **options)
+            return schema.dump(response, **options)
+        return wrapper
+    return decorator
+
+
 def validate(schema):
     """Decorator for validating ``req.media`` using Marshmallow.
-
-    Note:
-      The ``marshmallow`` package must be installed separately in
-      order to use this decorator.
 
     Parameters:
       schema(marshmallow.Schema)
@@ -36,5 +50,7 @@ def validate(schema):
 
 
 if not HAS_MARSHMALLOW:  # pragma: no cover
-    def validate(schema):
+    def dump(schema):
         raise RuntimeError("marshmallow is not installed.  Run `pipenv install marshmallow`.")
+
+    validate = dump

@@ -69,6 +69,7 @@ from marshmallow import Schema, fields, post_load, validate
 
 
 class PersonSchema(Schema):
+    id = fields.Integer(dump_only=True)
     name = fields.String(required=True)
     age = fields.Integer(required=True, validate=[validate.Range(0, 130)])
 
@@ -78,11 +79,18 @@ class PersonSchema(Schema):
 
 
 class People(Resource):
-    @marshmallow.validate(PersonSchema())
+    person_schema = PersonSchema()
+
+    @marshmallow.dump(person_schema, many=True)
+    def on_get(self, req, resp):
+        return [PersonModel(id=1, name="Jim Gordon", age=36)]
+
+    @marshmallow.validate(person_schema)
+    @marshmallow.dump(person_schema)
     def on_post(self, req, resp):
         person = req.context["marshmallow"]
         person.save()
-        return falcon.HTTP_201, person.to_dict()
+        return falcon.HTTP_201, person
 ```
 
 

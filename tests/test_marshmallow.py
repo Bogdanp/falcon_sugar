@@ -4,30 +4,45 @@ import pytest
 from collections import namedtuple
 from falcon.testing import TestClient
 from falcon_sugar import Resource, marshmallow
-from marshmallow import Schema, fields, post_load, validate
+from marshmallow import Schema, fields, post_dump, post_load, validate
 
 
-class PersonModel(namedtuple("PersonModel", ("name", "age"))):
+class PersonModel(namedtuple("PersonModel", ("id", "name", "age", "secret"))):
     pass
 
 
 class PersonSchema(Schema):
+    id = fields.Integer(dump_only=True)
     name = fields.String(required=True)
     age = fields.Integer(required=True, validate=[validate.Range(0, 130)])
 
+    @post_dump(pass_many=True)
+    def prepare_dump(self, data, many):
+        if many:
+            return {"people": data}
+        return data
+
     @post_load
     def make_person(self, data):
-        return PersonModel(**data)
+        return PersonModel(id=1, secret="verysecret", **data)
 
 
 class People(Resource):
     person_schema = PersonSchema()
 
+    @marshmallow.dump(person_schema, many=True)
+    def on_get(self, req, resp):
+        return [
+            PersonModel(id=1, secret="sosecret!", name="Jim Gordon", age=36),
+            PersonModel(id=2, secret="othersec!", name="Bruce Wayne", age=30),
+        ]
+
     @marshmallow.validate(person_schema)
+    @marshmallow.dump(person_schema)
     def on_post(self, req, resp):
         person = req.context["marshmallow"]
         assert isinstance(person, PersonModel)
-        return falcon.HTTP_201, self.person_schema.dump(person)
+        return falcon.HTTP_201, person
 
 
 @pytest.fixture
@@ -63,7 +78,24 @@ def test_marshmallow_validates_requests(client):
     }
 
 
-def test_marshmallow_populates_request_context_with_the_validation_result(client):
+def test_marshmallow_dumps_responses(client):
+    # Given that I have an app client
+    # When I make a request to get a list of people
+    response = client.simulate_get("/people")
+
+    # Then I should get back a 200 response
+    assert response.status_code == 200
+
+    # And a valid response
+    assert response.json == {
+        "people": [
+            {"id": 1, "name": "Jim Gordon", "age": 36},
+            {"id": 2, "name": "Bruce Wayne", "age": 30},
+        ],
+    }
+
+
+def test_marshmallow_validates_requests_and_dumps_responses(client):
     # Given that I have an app client
     # When I make a valid request to create a person
     response = client.simulate_post("/people", json={
@@ -71,5 +103,8 @@ def test_marshmallow_populates_request_context_with_the_validation_result(client
         "age": 36,
     })
 
-    # Then I should get back a 200 response
+    # Then I should get back a 201 response
     assert response.status_code == 201
+
+    # And a valid response
+    assert response.json == {"id": 1, "name": "Jim Gordon", "age": 36}
