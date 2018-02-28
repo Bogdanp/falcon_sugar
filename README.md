@@ -64,15 +64,8 @@ class Person(Resource):
 A [Marshmallow]-based validator.
 
 ``` python
-import typing
-
 from falcon_sugar ipmort Resource, marshmallow
-from marshmallow import Schema, fields, validate
-
-
-class PersonModel(typing.NamedTuple):
-    name: str
-    age: int
+from marshmallow import Schema, fields, post_load, validate
 
 
 class PersonSchema(Schema):
@@ -89,7 +82,7 @@ class People(Resource):
     def on_post(self, req, resp):
         person = req.context["marshmallow"]
         person.save()
-        return falcon.HTTP_201, person._asdict()
+        return falcon.HTTP_201, person.to_dict()
 ```
 
 
