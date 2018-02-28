@@ -61,7 +61,7 @@ class Person(Resource):
 
 ### `falcon_sugar.marshmallow`
 
-A [marshmallow]-based validator.
+A [Marshmallow]-based validator.
 
 ``` python
 import typing
@@ -100,4 +100,5 @@ falcon_sugar is licensed under Apache 2.0.  Please see
 
 
 [Falcon]: https://falconframework.org
+[Marshmallow]: https://marshmallow.readthedocs.io
 [LICENSE]: https://github.com/Bogdanp/falcon_sugar/blob/master/LICENSE
