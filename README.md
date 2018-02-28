@@ -64,7 +64,7 @@ class Person(Resource):
 A [Marshmallow]-based validator.
 
 ``` python
-from falcon_sugar ipmort Resource, marshmallow
+from falcon_sugar import Resource, marshmallow
 from marshmallow import Schema, fields, post_load, validate
 
 
