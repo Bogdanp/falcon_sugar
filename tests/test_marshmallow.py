@@ -1,15 +1,14 @@
 import falcon
 import pytest
-import typing
 
+from collections import namedtuple
 from falcon.testing import TestClient
 from falcon_sugar import Resource, marshmallow
 from marshmallow import Schema, fields, post_load, validate
 
 
-class PersonModel(typing.NamedTuple):
-    name: str
-    age: int
+class PersonModel(namedtuple("PersonModel", ("name", "age"))):
+    pass
 
 
 class PersonSchema(Schema):
@@ -22,11 +21,13 @@ class PersonSchema(Schema):
 
 
 class People(Resource):
-    @marshmallow.validate(PersonSchema())
+    person_schema = PersonSchema()
+
+    @marshmallow.validate(person_schema)
     def on_post(self, req, resp):
         person = req.context["marshmallow"]
         assert isinstance(person, PersonModel)
-        return falcon.HTTP_201, person._asdict()
+        return falcon.HTTP_201, self.person_schema.dump(person)
 
 
 @pytest.fixture
