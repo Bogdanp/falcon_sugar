@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "90f8b9e766b253b65063a9a75cfa9a2c653bfade839fbb68fdee34a116252ded"
+            "sha256": "27809567cc295a2bbc4cca855bf176a01d20061b0936c872a63bf75b8f9438e8"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -161,6 +161,13 @@
             ],
             "version": "==2.6"
         },
+        "marshmallow": {
+            "hashes": [
+                "sha256:0d049fdce4a3eecd91261188befeaeb937e1977fae6dbb86279b3eec8cb7feeb",
+                "sha256:dac05fc434aa21ba46e7a7d468c844c899e44f42380fba04dd896253fd7d7d52"
+            ],
+            "version": "==3.0.0b7"
+        },
         "pkginfo": {
             "hashes": [
                 "sha256:31a49103180ae1518b65d3f4ce09c784e2bc54e338197668b4fb7dc539521024",
@@ -218,10 +225,10 @@
         },
         "tqdm": {
             "hashes": [
-                "sha256:4c041f8019f7be65b8028ddde9a836f7ccc51c4637f1ff2ba9b5813d38d19d5a",
-                "sha256:df32e6f127dc0ccbc675eadb33f749abbcb8f174c5cb9ec49c0cdb73aa737377"
+                "sha256:f66468c14ccd011a627734c9b3fd72f20ce16f8faecc47384eb2507af5924fb9",
+                "sha256:5ec0d4442358e55cdb4a0471d04c6c831518fd8837f259db5537d90feab380df"
             ],
-            "version": "==4.19.5"
+            "version": "==4.19.6"
         },
         "twine": {
             "hashes": [

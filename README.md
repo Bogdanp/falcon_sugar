@@ -11,6 +11,10 @@ A little bit of sugar for [Falcon] apps.
 
     pipenv install falcon_sugar
 
+or
+
+    pipenv install falcon_sugar[marshmallow]
+
 
 ## Usage
 
@@ -52,6 +56,40 @@ class People:
 class Person(Resource):
   def on_delete(self, req, resp, pk):
     resp.status = falcon.HTTP_201
+```
+
+
+### `falcon_sugar.marshmallow`
+
+A [marshmallow]-based validator.
+
+``` python
+import typing
+
+from falcon_sugar ipmort Resource, marshmallow
+from marshmallow import Schema, fields, validate
+
+
+class PersonModel(typing.NamedTuple):
+    name: str
+    age: int
+
+
+class PersonSchema(Schema):
+    name = fields.String(required=True)
+    age = fields.Integer(required=True, validate=[validate.Range(0, 130)])
+
+    @post_load
+    def make_person(self, data):
+        return PersonModel(**data)
+
+
+class People(Resource):
+    @marshmallow.validate(PersonSchema())
+    def on_post(self, req, resp):
+        person = req.context["marshmallow"]
+        person.save()
+        return falcon.HTTP_201, person._asdict()
 ```
 
 

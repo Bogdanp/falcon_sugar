@@ -36,6 +36,7 @@ setup(
     packages=["falcon_sugar"],
     install_requires=["falcon>=1.4,<2"],
     python_requires=">=3.5",
+    extras_require={"marshmallow": ["marshmallow==3.0.0b7"]},
     cmdclass=cmdclass,
     ext_modules=ext_modules,
 )

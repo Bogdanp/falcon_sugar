@@ -17,3 +17,9 @@ pytest = "*"
 pytest-cov = "*"
 twine = "*"
 bumpversion = "*"
+marshmallow = "*"
+
+
+[pipenv]
+
+allow_prereleases = true
