@@ -94,6 +94,14 @@ class People(Resource):
 ```
 
 
+## Limitations
+
+Any decorator that doesn't return the result of the decorated function
+will make it so that `Resource`s don't return a result.  This means
+that builtin Falcon decorators like `before` and `after` are
+incompatible with this library.
+
+
 ## License
 
 falcon_sugar is licensed under Apache 2.0.  Please see
