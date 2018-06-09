@@ -32,3 +32,14 @@ def test_resource_handlers_can_return_no_content(client):
 
     # And it should contain no response
     assert response.content == b""
+
+def test_resource_handlers_can_return_no_content_with_nativ_error(client):
+    # Given that I have a DELETE handler for /people/{pk} that fails
+    # When I request that resource
+    response = client.simulate_post("/butterfly")
+
+    # Then I should get back a 400
+    assert response.status_code == 400
+
+    # And it should contain no response
+    assert response.content == b""
