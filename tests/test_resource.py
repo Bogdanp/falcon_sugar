@@ -32,3 +32,12 @@ def test_resource_handlers_can_return_no_content(client):
 
     # And it should contain no response
     assert response.content == b""
+
+def test_resource_handlers_can_return_no_content_with_nativ_error(client):
+    # Given that I have a POST handler for /butterfiles that returns a 400
+    # When I request that resource
+    response = client.simulate_post("/butterflies")
+
+    # Then I should get back a 400
+    assert response.status_code == 400
+    assert response.content == b"{}"

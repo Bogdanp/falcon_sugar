@@ -18,11 +18,18 @@ class Person(Resource):
         return
 
 
+class Butterflies(Resource):
+    def on_post(self, req, resp):
+        resp.status = falcon.HTTP_400
+        resp.media = {}
+
+
 @pytest.fixture
 def app():
     app = falcon.API()
     app.add_route("/people", People())
     app.add_route("/people/{pk}", Person())
+    app.add_route("/butterflies", Butterflies())
     return app
 
 
