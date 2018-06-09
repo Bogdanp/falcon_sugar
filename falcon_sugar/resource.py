@@ -18,10 +18,10 @@ def handler(method):
         if isinstance(response_data, tuple):
             resp.status, resp.media = response_data
 
-        elif response_data is None:
+        elif response_data is None and resp.status.startswith('200'):
             resp.status = falcon.HTTP_204
 
-        else:
+        elif response_data is not None:
             resp.media = response_data
 
     return wrapper
